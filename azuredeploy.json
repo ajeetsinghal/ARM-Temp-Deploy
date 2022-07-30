@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VnetName": {
+            "type": "string",
+            "defaultValue": "Vnet-001",
+            "metadata": {
+                "description": "Virtual Network Name"
+            }
+        },
+        "CostCenterIO": {
+            "type": "string",
+            "defaultValue": "12345",
+            "metadata": {
+                "description": "Cost Center IO Number for cross billing"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('VnetName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "CostCenter": "[parameters('CostCenterIO')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "enableDdosProtection": false,
+                "enableVmProtection": false,
+                "subnets": [
+                    {
+                        "name": "Subnet001",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    },
+                    {
+                        "name": "Subnet002",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {}
+}
